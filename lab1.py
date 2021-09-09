@@ -1,4 +1,11 @@
-import webbrowser
 import requests
+
 print(requests.__version__)
-webbrowser.open("https://google.com")
+url_for_g = requests.get('http://google.com/')
+#print(url_for_g.text)
+
+url = 'https://raw.githubusercontent.com/Lyuyang0130/CMPUT404Labs/main/lab1.py'
+
+
+f = requests.get(url)
+print(f.text)
