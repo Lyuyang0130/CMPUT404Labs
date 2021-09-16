@@ -45,7 +45,7 @@ def main():
 
                 #send data
                 send_full_data = conn.recv(BUFFER_SIZE)
-                pirnt(f"Sending recieved data {send_full_data} to goofle")
+                pirnt(f"Sending recieved data {send_full_data} to google")
                 proxy_end.sendall(send_full_data)
 
                 #remember to shut down!!

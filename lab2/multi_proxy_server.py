@@ -19,17 +19,22 @@ def get_remote_ip(host):
     return remote_ip
 
 # TO-DO: handle_request() method
-def handle_request(addr,conn):
-    pritn("Connected by", addr)
-    conn.sendall(full_data)
-    conn.shutdown(socket.SHUT_WR)
-    conn.close()
+def handle_request(conn,proxy_end):
+    full_data = conn.recv(BUFFER_SIZE)
+    print(f"Sending recieved data {full_data} to google com")
+    proxy_end.sendall(full_data)
+    proxy_end.shutdown(socket.SHUT_WR)
+    data = proxy_end.recv(BUFFER_SIZE)
+    print(f"Sending recieved data {data} to client")
+    #send back
+    conn.send(data)
+    
 
 def main():
 
 # TO-DO: establish localhost, extern_host (google), port, buffer size
     extern_host = 'www.google.com'
-
+    port = 80
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as proxy_start: #establish "start" of proxy (connects to localhost)
 #       TO-DO: bind, and set to listening mode
         print("Starting proxy server")
@@ -43,28 +48,17 @@ def main():
             conn, addr = proxy_start.accept()
             print("Connected by", addr)
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as proxy_end: #establish "end" of proxy (connects to google)
-                #TO-DO: get remote IP of google, connect proxy_end to it
-                print("Connecting to Google")
                 remote_ip = get_remote_ip(extern_host)
-                proxy_end.connect((remote_ip,extern_port))
+                proxy_end.connect((remote_ip,port))
                 #now for the multiprocessing...
                 #TO-DO: allow for multiple connections with a Process daemon
                 #send data
                 #connect proxy_start
                 # make sure to set target = handle_request when creating the process.
-                p = Process(target=handle_request,args=(addr,conn))
+                p = Process(target=handle_request,args=(conn,proxy_end))
                 p.daemon = True
                 p.start()
                 print("Started process", p)
-
-                #remember to shut down!!
-                proxy_end.shutdown(socket.SHUT_WR)
-
-                data = proxy_end.recv(BUFFER_SIZE)
-                print(f"Sending recieved data {data} to client")
-
-                #send data back
-                conn.send(data)
 
         conn.close()
 
