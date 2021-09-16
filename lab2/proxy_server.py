@@ -41,11 +41,11 @@ def main():
                 remote_ip = get_remote_ip(extern_host)
 
                 #connect proxy end
-                proxy_end.connect((remote_ip,extern_port))
+                proxy_end.connect((remote_ip,port))
 
                 #send data
                 send_full_data = conn.recv(BUFFER_SIZE)
-                pirnt(f"Sending recieved data {send_full_data} to google")
+                print(f"Sending recieved data {send_full_data} to google")
                 proxy_end.sendall(send_full_data)
 
                 #remember to shut down!!
