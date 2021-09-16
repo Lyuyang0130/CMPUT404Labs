@@ -26,6 +26,7 @@ def main():
 #echo connections back to client
 def handle_echo(addr,conn):
     pritn("Connected by", addr)
+    full_data = conn.recv(BUFFER_SIZE)
     conn.sendall(full_data)
     conn.shutdown(socket.SHUT_WR)
     conn.close()

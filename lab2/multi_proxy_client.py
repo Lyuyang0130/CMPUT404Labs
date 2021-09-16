@@ -12,7 +12,7 @@ payload = "GET / HTTP/1.0\r\nHost: www.google.com\r\n\r\n"
 
 def connect(addr):
     try:
-        #creaete socket, connect, send & receive, then shutdown
+        #create socket, connect, send and receive, then shutdown
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect(addr)
         s.sendall(payload.encode())
