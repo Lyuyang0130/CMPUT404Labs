@@ -11,9 +11,9 @@ def main():
     
     #create socket, bind, and set to listening mode
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        proxy_start.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
-        proxy_start.bind((HOST,PORT))
-        proxy_start.listen(2)
+        s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
+        s.bind((HOST,PORT))
+        s.listen(2)
 
         while True:
             #connect proxy_start
