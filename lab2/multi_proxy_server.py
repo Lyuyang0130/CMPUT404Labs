@@ -51,10 +51,8 @@ def main():
                 remote_ip = get_remote_ip(extern_host)
                 proxy_end.connect((remote_ip,port))
                 #now for the multiprocessing...
-                #TO-DO: allow for multiple connections with a Process daemon
                 #send data
-                #connect proxy_start
-                # make sure to set target = handle_request when creating the process.
+                #make sure to set target = handle_request when creating the process.
                 p = Process(target=handle_request,args=(conn,proxy_end))
                 p.daemon = True
                 p.start()
